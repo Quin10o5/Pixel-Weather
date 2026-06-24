@@ -1,0 +1,244 @@
+{
+  "name": "vs-weather",
+  "displayName": "VS Weather",
+  "description": "Animated clouds, rain, and thunder in a strip above your editor — matches your theme background.",
+  "version": "0.2.0",
+  "publisher": "quin10o5",
+  "license": "MIT",
+  "icon": "media/icon.png",
+  "keywords": [
+    "weather",
+    "ambient",
+    "animation",
+    "pixel art",
+    "theme",
+    "decoration",
+    "clouds",
+    "rain",
+    "cursor"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Quin10o5/VS-Weather.git"
+  },
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./dist/extension.js",
+  "scripts": {
+    "build": "node esbuild.mjs",
+    "watch": "node esbuild.mjs --watch",
+    "screenshot": "npm run build && node scripts/capture-screenshot.mjs",
+    "package": "npm run build && vsce package"
+  },
+  "contributes": {
+    "viewsContainers": {
+      "panel": [
+        {
+          "id": "weather",
+          "title": "Weather",
+          "icon": "media/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "weather": [
+        {
+          "type": "webview",
+          "id": "weather.scene",
+          "name": "Scene"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Weather",
+      "properties": {
+        "weather.enabled": {
+          "type": "boolean",
+          "default": true,
+          "order": 1,
+          "scope": "application",
+          "description": "Show the animated weather panel above the editor.",
+          "markdownDescription": "Show the animated weather panel above the editor. Turn off to hide all weather effects."
+        },
+        "weather.showOnStartup": {
+          "type": "boolean",
+          "default": true,
+          "order": 2,
+          "scope": "application",
+          "description": "Open the weather panel automatically when Cursor starts.",
+          "markdownDescription": "Open the weather panel automatically when Cursor starts."
+        },
+        "weather.intensity": {
+          "type": "number",
+          "default": 1,
+          "minimum": 0,
+          "maximum": 2,
+          "order": 10,
+          "scope": "application",
+          "description": "How strong rain, clouds, snow, and other effects appear (0–2).",
+          "markdownDescription": "How strong rain, clouds, snow, and other effects appear.\n\n- **0** — barely visible\n- **1** — balanced (default)\n- **2** — very heavy"
+        },
+        "weather.dayNight": {
+          "type": "boolean",
+          "default": true,
+          "order": 11,
+          "scope": "application",
+          "description": "Follow your local clock for sun, moon, and stars.",
+          "markdownDescription": "Follow your local clock for sun, moon, stars, and sky brightness."
+        },
+        "weather.lightning": {
+          "type": "boolean",
+          "default": true,
+          "order": 12,
+          "scope": "application",
+          "description": "Show lightning flashes during thunderstorms.",
+          "markdownDescription": "Show lightning flashes during thunderstorms."
+        },
+        "weather.birds": {
+          "type": "boolean",
+          "default": true,
+          "order": 13,
+          "scope": "application",
+          "description": "Occasionally show bird flocks in clear or mild weather.",
+          "markdownDescription": "Occasionally show bird flocks during sunny, cloudy, or rainy weather."
+        },
+        "weather.snowSeason": {
+          "type": "string",
+          "enum": [
+            "auto",
+            "always",
+            "never"
+          ],
+          "default": "auto",
+          "order": 14,
+          "scope": "application",
+          "enumDescriptions": [
+            "Snow appears in December, January, and February.",
+            "Snow can appear year-round.",
+            "Rain never turns into snow."
+          ],
+          "description": "When snow effects are allowed.",
+          "markdownDescription": "Control when snow effects can appear.\n\n- **auto** — winter months only (Dec–Feb)\n- **always** — snow any time of year\n- **never** — no snow"
+        },
+        "weather.cycleIntervalMin": {
+          "type": "number",
+          "default": 5,
+          "minimum": 3,
+          "maximum": 120,
+          "order": 20,
+          "scope": "application",
+          "description": "Minimum minutes before weather may change on its own.",
+          "markdownDescription": "Minimum minutes before weather may change on its own."
+        },
+        "weather.cycleIntervalMax": {
+          "type": "number",
+          "default": 15,
+          "minimum": 5,
+          "maximum": 180,
+          "order": 21,
+          "scope": "application",
+          "description": "Maximum minutes before weather changes on its own.",
+          "markdownDescription": "Maximum minutes before weather changes on its own. Should be greater than or equal to the minimum interval."
+        },
+        "weather.pauseWhenHidden": {
+          "type": "boolean",
+          "default": true,
+          "order": 22,
+          "scope": "application",
+          "description": "Pause animation when the weather panel is not visible.",
+          "markdownDescription": "Pause animation when the weather panel is hidden or collapsed to save CPU."
+        },
+        "weather.uiMode": {
+          "type": "string",
+          "enum": [
+            "normal",
+            "dev"
+          ],
+          "default": "normal",
+          "order": 30,
+          "scope": "application",
+          "enumDescriptions": [
+            "Simple in-panel settings for everyday use.",
+            "Full developer controls with live weather overrides and testing tools."
+          ],
+          "description": "In-panel settings menu mode.",
+          "markdownDescription": "Controls what the ☰ menu in the weather panel shows.\n\nUse **Weather: Use Normal Settings Mode** or **Weather: Use Developer Mode** to switch quickly."
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "weather.show",
+        "title": "Weather: Show Panel"
+      },
+      {
+        "command": "weather.openSettings",
+        "title": "Weather: Open Extension Settings",
+        "category": "Weather"
+      },
+      {
+        "command": "weather.settings.toggle",
+        "title": "Weather: Toggle Settings Menu"
+      },
+      {
+        "command": "weather.mode.normal",
+        "title": "Weather: Use Normal Settings Mode",
+        "category": "Weather"
+      },
+      {
+        "command": "weather.mode.dev",
+        "title": "Weather: Use Developer Mode",
+        "category": "Weather"
+      },
+      {
+        "command": "weather.cycleNow",
+        "title": "Weather: Force Weather Change",
+        "category": "Weather"
+      },
+      {
+        "command": "weather.dev.sunny",
+        "title": "Weather: Set Sunny",
+        "category": "Weather"
+      },
+      {
+        "command": "weather.dev.cloudy",
+        "title": "Weather: Set Cloudy",
+        "category": "Weather"
+      },
+      {
+        "command": "weather.dev.rain",
+        "title": "Weather: Set Rain",
+        "category": "Weather"
+      },
+      {
+        "command": "weather.dev.thunder",
+        "title": "Weather: Set Thunderstorm",
+        "category": "Weather"
+      },
+      {
+        "command": "weather.dev.flash",
+        "title": "Weather: Flash Lightning",
+        "category": "Weather"
+      },
+      {
+        "command": "weather.dev.birds",
+        "title": "Weather: Spawn Birds",
+        "category": "Weather"
+      }
+    ]
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.85.0",
+    "@vscode/vsce": "^3.2.1",
+    "esbuild": "^0.25.0",
+    "playwright": "^1.61.1",
+    "typescript": "^5.7.0"
+  }
+}

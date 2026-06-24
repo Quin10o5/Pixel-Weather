@@ -1,0 +1,90 @@
+import { WeatherState } from './types';
+
+export const WEATHER_TRANSITION_SEC = 12;
+
+const CELESTIAL_ALPHA: Record<WeatherState, number> = {
+  sunny: 1,
+  cloudy: 0.75,
+  rain: 0.45,
+  thunderstorm: 0.1,
+  fog: 0.5,
+  snow: 0.55,
+};
+
+/** Cloud density factor per weather (matches sunny sparse vs stormy cover). */
+export const CLOUD_PRESENCE: Record<WeatherState, number> = {
+  sunny: 0.35,
+  cloudy: 1,
+  rain: 0.85,
+  thunderstorm: 1,
+  fog: 0.7,
+  snow: 0.9,
+};
+
+export const RAIN_PRESENCE: Record<WeatherState, number> = {
+  sunny: 0,
+  cloudy: 0,
+  rain: 1,
+  thunderstorm: 1,
+  fog: 0,
+  snow: 0,
+};
+
+export const SNOW_PRESENCE: Record<WeatherState, number> = {
+  sunny: 0,
+  cloudy: 0,
+  rain: 0,
+  thunderstorm: 0,
+  fog: 0,
+  snow: 1,
+};
+
+export const LIGHTNING_PRESENCE: Record<WeatherState, number> = {
+  sunny: 0,
+  cloudy: 0,
+  rain: 0,
+  thunderstorm: 1,
+  fog: 0,
+  snow: 0,
+};
+
+export function smoothstep(t: number): number {
+  const x = Math.max(0, Math.min(1, t));
+  return x * x * (3 - 2 * x);
+}
+
+function blendScalar(from: number, to: number, t: number): number {
+  const eased = smoothstep(t);
+  return from + (to - from) * eased;
+}
+
+function presenceFor(
+  map: Record<WeatherState, number>,
+  weather: WeatherState
+): number {
+  return map[weather] ?? 0;
+}
+
+export function blendCloudPresence(from: WeatherState, to: WeatherState, t: number): number {
+  return blendScalar(presenceFor(CLOUD_PRESENCE, from), presenceFor(CLOUD_PRESENCE, to), t);
+}
+
+export function blendRainPresence(from: WeatherState, to: WeatherState, t: number): number {
+  return blendScalar(presenceFor(RAIN_PRESENCE, from), presenceFor(RAIN_PRESENCE, to), t);
+}
+
+export function blendSnowPresence(from: WeatherState, to: WeatherState, t: number): number {
+  return blendScalar(presenceFor(SNOW_PRESENCE, from), presenceFor(SNOW_PRESENCE, to), t);
+}
+
+export function blendLightningPresence(from: WeatherState, to: WeatherState, t: number): number {
+  return blendScalar(
+    presenceFor(LIGHTNING_PRESENCE, from),
+    presenceFor(LIGHTNING_PRESENCE, to),
+    t
+  );
+}
+
+export function blendCelestialAlpha(from: WeatherState, to: WeatherState, t: number): number {
+  return blendScalar(presenceFor(CELESTIAL_ALPHA, from), presenceFor(CELESTIAL_ALPHA, to), t);
+}
