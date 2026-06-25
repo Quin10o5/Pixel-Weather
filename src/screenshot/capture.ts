@@ -34,11 +34,19 @@ function main(): void {
     weather: scenario.weather,
     dayPhase: scenario.dayPhase ?? 'day',
     wind: { strength: 0.35, direction: scenario.birdDirection },
-    settings: { ...DEFAULT_SETTINGS, ...scenario.settings },
+    settings: {
+      ...DEFAULT_SETTINGS,
+      ...scenario.settings,
+      birds: scenario.birds === false ? false : (scenario.settings?.birds ?? DEFAULT_SETTINGS.birds),
+    },
     devOverrides: scenario.devOverrides,
   });
 
-  renderer.getBirdSystem().triggerFlock(scenario.birdDirection);
+  renderer.setTransparentBackground(scenario.transparentBackground !== false);
+
+  if (scenario.birds !== false) {
+    renderer.getBirdSystem().triggerFlock(scenario.birdDirection);
+  }
 
   const simFrames = scenario.lightningFrame ?? scenario.frames;
   for (let i = 0; i < simFrames; i++) {

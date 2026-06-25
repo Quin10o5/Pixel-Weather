@@ -49,6 +49,7 @@ export class CanvasRenderer {
   private height = 0;
   private time = 0;
   private visible = true;
+  private transparentBackground = false;
   private cachedBg = '#1e1e1e';
   private bgCacheAt = 0;
 
@@ -87,6 +88,10 @@ export class CanvasRenderer {
 
   getLightningSystem(): LightningSystem {
     return this.lightningSystem;
+  }
+
+  setTransparentBackground(enabled: boolean): void {
+    this.transparentBackground = enabled;
   }
 
   resize(width: number, height: number): void {
@@ -181,10 +186,14 @@ export class CanvasRenderer {
   }
 
   draw(): void {
-    const bg = this.getEditorBackground();
     this.ctx.globalAlpha = 1;
-    this.ctx.fillStyle = bg;
-    this.ctx.fillRect(0, 0, this.width, this.height);
+    if (this.transparentBackground) {
+      this.ctx.clearRect(0, 0, this.width, this.height);
+    } else {
+      const bg = this.getEditorBackground();
+      this.ctx.fillStyle = bg;
+      this.ctx.fillRect(0, 0, this.width, this.height);
+    }
 
     if (!this.settings.enabled) {
       return;

@@ -19,6 +19,10 @@ export interface CaptureScenario {
   devOverrides: DevOverrides;
   /** Simulation frame to trigger a lightning flash (thunder only). */
   lightningFrame?: number;
+  /** Skip editor-background fill so PNG alpha shows through (marketplace previews). */
+  transparentBackground?: boolean;
+  /** Spawn a bird flock for this capture (default true). */
+  birds?: boolean;
 }
 
 /** Marketplace / README gallery — keep in sync with scripts/capture-screenshots.mjs */
@@ -46,12 +50,13 @@ export const CAPTURE_SCENARIOS: CaptureScenario[] = [
   },
   {
     id: 'rain-sun',
-    label: 'Rain — sun and birds',
+    label: 'Rain — sun',
     weather: 'rain',
     dayPhase: 'day',
     seed: 0x44bd7011,
     frames: 215,
     birdDirection: 1,
+    birds: false,
     devOverrides: {
       timeOverride: 11.25,
       useTimeOverride: true,

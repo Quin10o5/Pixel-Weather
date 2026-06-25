@@ -4,9 +4,9 @@ Pixel-art **clouds**, **rain**, and **thunder** in a strip above your editor. Th
 
 ## Screenshots
 
-**Rain with sun and birds**
+**Rain with sun**
 
-![Rain with sun and birds](https://raw.githubusercontent.com/Quin10o5/Pixel-Weather/main/media/screenshots/rain-sun.png)
+![Rain with sun](https://raw.githubusercontent.com/Quin10o5/Pixel-Weather/main/media/screenshots/rain-sun.png)
 
 **Snowy night with moon and birds**
 

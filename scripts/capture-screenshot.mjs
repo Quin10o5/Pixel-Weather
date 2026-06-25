@@ -22,8 +22,14 @@ try {
   await page.waitForFunction(() => document.body.dataset.ready === 'true', null, {
     timeout: 10000,
   });
-  const canvas = page.locator('#scene');
-  await canvas.screenshot({ path: outPath, type: 'png' });
+  const pngBase64 = await page.evaluate(() => {
+    const canvas = document.getElementById('scene');
+    if (!(canvas instanceof HTMLCanvasElement)) {
+      throw new Error('Missing #scene canvas');
+    }
+    return canvas.toDataURL('image/png').split(',')[1];
+  });
+  fs.writeFileSync(outPath, Buffer.from(pngBase64, 'base64'));
   console.log(`Wrote ${outPath}`);
 } finally {
   await browser.close();

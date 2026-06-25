@@ -47,7 +47,14 @@ try {
       );
 
       const outPath = path.join(outDir, `${id}.png`);
-      const png = await page.locator('#scene').screenshot({ type: 'png' });
+      const pngBase64 = await page.evaluate(() => {
+        const canvas = document.getElementById('scene');
+        if (!(canvas instanceof HTMLCanvasElement)) {
+          throw new Error('Missing #scene canvas');
+        }
+        return canvas.toDataURL('image/png').split(',')[1];
+      });
+      const png = Buffer.from(pngBase64, 'base64');
       fs.writeFileSync(outPath, png);
       const hash = crypto.createHash('md5').update(png).digest('hex').slice(0, 8);
       hashes.set(id, hash);
