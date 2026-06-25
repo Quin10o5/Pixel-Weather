@@ -57,6 +57,7 @@ export interface HostMessage {
     | 'devOverrides'
     | 'triggerLightning'
     | 'triggerBirds'
+    | 'triggerInchworm'
     | 'showFps'
     | 'toggleSettingsMenu';
   weather?: WeatherState;

@@ -1,8 +1,20 @@
-# VS Weather
+# Pixel Weather
 
-Animated **clouds**, **rain**, and **thunder** in a strip above your editor. The scene uses your editor background color so it blends with your theme.
+Pixel-art **clouds**, **rain**, and **thunder** in a strip above your editor. The scene uses your editor background color so it blends with your theme.
 
-![Sunny weather with birds, sun, and clouds](media/screenshot.png)
+## Screenshots
+
+**Rain with sun and birds**
+
+![Rain with sun and birds](https://raw.githubusercontent.com/Quin10o5/Pixel-Weather/main/media/screenshots/rain-sun.png)
+
+**Snowy night with moon and birds**
+
+![Snowy night with moon and birds](https://raw.githubusercontent.com/Quin10o5/Pixel-Weather/main/media/screenshots/snow-moon.png)
+
+**Cloudy dusk with sun and birds**
+
+![Cloudy dusk with sun and birds](https://raw.githubusercontent.com/Quin10o5/Pixel-Weather/main/media/screenshots/cloudy-dusk.png)
 
 ## Layout
 
@@ -12,7 +24,7 @@ On startup the extension moves the **Panel to the top** of the window (above you
 
 ## Settings
 
-Open **Settings → Extensions → VS Weather**, or run **Weather: Open Extension Settings**.
+Open **Settings → Extensions → Pixel Weather**, or run **Pixel Weather: Open Extension Settings**.
 
 | Setting | Default | Description |
 |---------|---------|-------------|
@@ -25,20 +37,21 @@ Open **Settings → Extensions → VS Weather**, or run **Weather: Open Extensio
 | `weather.snowSeason` | `auto` | When snow can appear |
 | `weather.uiMode` | `normal` | In-panel ☰ menu: simple or developer |
 
-Use **Weather: Use Normal Settings Mode** / **Weather: Use Developer Mode** to switch the ☰ menu.
+Use **Pixel Weather: Use Normal Settings Mode** / **Pixel Weather: Use Developer Mode** to switch the ☰ menu.
 
 ## Commands
 
-- **Weather: Show Panel** — move panel to top and open weather
-- **Weather: Open Extension Settings**
-- **Weather: Toggle Settings Menu** — open the in-panel ☰ menu
+- **Pixel Weather: Show Panel** — move panel to top and open weather
+- **Pixel Weather: Open Extension Settings**
+- **Pixel Weather: Toggle Settings Menu** — open the in-panel ☰ menu
 
 ## Development
 
 ```bash
 npm install
 npm run build
-npm run screenshot   # regenerate media/screenshot.png from the real renderer
+npm run screenshot    # hero image → media/screenshot.png (rain + sun)
+npm run screenshots   # marketplace gallery → media/screenshots/
 ```
 
 Press **F5** to launch the Extension Development Host.

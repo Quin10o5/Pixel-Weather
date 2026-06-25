@@ -18,7 +18,7 @@ try {
     viewport: { width: 1280, height: 160 },
     deviceScaleFactor: 2,
   });
-  await page.goto(`file://${htmlPath.replace(/\\/g, '/')}`);
+  await page.goto(`file://${htmlPath.replace(/\\/g, '/')}?scene=rain-sun`);
   await page.waitForFunction(() => document.body.dataset.ready === 'true', null, {
     timeout: 10000,
   });

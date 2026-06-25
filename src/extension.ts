@@ -42,6 +42,9 @@ export function activate(context: vscode.ExtensionContext): void {
     vscode.commands.registerCommand('weather.dev.birds', () => {
       webviewProvider?.postMessage({ type: 'triggerBirds' });
     }),
+    vscode.commands.registerCommand('weather.dev.inchworm', () => {
+      webviewProvider?.postMessage({ type: 'triggerInchworm' });
+    }),
     vscode.workspace.onDidChangeConfiguration((e) => {
       if (e.affectsConfiguration('weather')) {
         weatherManager?.onSettingsChanged(readSettings());

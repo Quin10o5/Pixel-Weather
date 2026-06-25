@@ -34,6 +34,10 @@ export class SceneDevBridge implements DevControlsBridge {
     this.renderer.getBirdSystem().triggerFlock();
   }
 
+  triggerInchworm(): void {
+    this.renderer.getInchwormSystem().triggerInchworm();
+  }
+
   setShowFps(visible: boolean): void {
     this.perf.visible = visible;
   }

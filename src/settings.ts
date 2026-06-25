@@ -36,7 +36,7 @@ export async function setUiMode(mode: WeatherUiMode): Promise<void> {
   await writeSetting('uiMode', mode);
 }
 
-export const EXTENSION_SETTINGS_FILTER = '@ext:quin10o5.vs-weather';
+export const EXTENSION_SETTINGS_FILTER = '@ext:quin10o5.pixel-weather';
 
 export function openExtensionSettings(): Thenable<unknown> {
   return vscode.commands.executeCommand('workbench.action.openSettings', EXTENSION_SETTINGS_FILTER);

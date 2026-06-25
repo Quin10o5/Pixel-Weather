@@ -50,6 +50,10 @@ export class DevControls {
       this.bridge.triggerBirds();
     });
 
+    document.getElementById('btn-inchworm')?.addEventListener('click', () => {
+      this.bridge.triggerInchworm();
+    });
+
     document.getElementById('btn-benchmark')?.addEventListener('click', () => {
       void this.runBenchmark();
     });

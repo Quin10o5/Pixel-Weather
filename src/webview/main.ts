@@ -126,6 +126,15 @@ function main(): void {
   window.addEventListener('resize', resize);
   resize();
 
+  canvas.addEventListener('click', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    if (renderer.handleClick(x, y)) {
+      e.stopPropagation();
+    }
+  });
+
   document.addEventListener('visibilitychange', () => {
     updateRunningState();
   });
@@ -160,6 +169,11 @@ function main(): void {
 
     if (msg.type === 'triggerBirds') {
       renderer.getBirdSystem().triggerFlock();
+      return;
+    }
+
+    if (msg.type === 'triggerInchworm') {
+      renderer.getInchwormSystem().triggerInchworm();
       return;
     }
 

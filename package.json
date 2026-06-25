@@ -1,8 +1,8 @@
 {
-  "name": "vs-weather",
-  "displayName": "VS Weather",
-  "description": "Animated clouds, rain, and thunder in a strip above your editor — matches your theme background.",
-  "version": "0.2.0",
+  "name": "pixel-weather",
+  "displayName": "Pixel Weather",
+  "description": "Pixel-art clouds, rain, and thunder in a strip above your editor — matches your theme background.",
+  "version": "0.2.5",
   "publisher": "quin10o5",
   "license": "MIT",
   "icon": "media/icon.png",
@@ -19,7 +19,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/Quin10o5/VS-Weather.git"
+    "url": "https://github.com/Quin10o5/Pixel-Weather.git"
+  },
+  "vsce": {
+    "baseImagesUrl": "https://raw.githubusercontent.com/Quin10o5/Pixel-Weather/main/"
   },
   "engines": {
     "vscode": "^1.85.0"
@@ -27,6 +30,10 @@
   "categories": [
     "Other"
   ],
+  "galleryBanner": {
+    "color": "#1e1e1e",
+    "theme": "dark"
+  },
   "activationEvents": [
     "onStartupFinished"
   ],
@@ -35,14 +42,16 @@
     "build": "node esbuild.mjs",
     "watch": "node esbuild.mjs --watch",
     "screenshot": "npm run build && node scripts/capture-screenshot.mjs",
-    "package": "npm run build && vsce package"
+    "screenshots": "npm run build && node scripts/capture-screenshots.mjs",
+    "package": "npm run build && vsce package",
+    "release": "node scripts/release.mjs"
   },
   "contributes": {
     "viewsContainers": {
       "panel": [
         {
           "id": "weather",
-          "title": "Weather",
+          "title": "Pixel Weather",
           "icon": "media/icon.svg"
         }
       ]
@@ -57,7 +66,7 @@
       ]
     },
     "configuration": {
-      "title": "Weather",
+      "title": "Pixel Weather",
       "properties": {
         "weather.enabled": {
           "type": "boolean",
@@ -169,68 +178,73 @@
             "Full developer controls with live weather overrides and testing tools."
           ],
           "description": "In-panel settings menu mode.",
-          "markdownDescription": "Controls what the ☰ menu in the weather panel shows.\n\nUse **Weather: Use Normal Settings Mode** or **Weather: Use Developer Mode** to switch quickly."
+          "markdownDescription": "Controls what the ☰ menu in the weather panel shows.\n\nUse **Pixel Weather: Use Normal Settings Mode** or **Pixel Weather: Use Developer Mode** to switch quickly."
         }
       }
     },
     "commands": [
       {
         "command": "weather.show",
-        "title": "Weather: Show Panel"
+        "title": "Pixel Weather: Show Panel"
       },
       {
         "command": "weather.openSettings",
-        "title": "Weather: Open Extension Settings",
-        "category": "Weather"
+        "title": "Pixel Weather: Open Extension Settings",
+        "category": "Pixel Weather"
       },
       {
         "command": "weather.settings.toggle",
-        "title": "Weather: Toggle Settings Menu"
+        "title": "Pixel Weather: Toggle Settings Menu"
       },
       {
         "command": "weather.mode.normal",
-        "title": "Weather: Use Normal Settings Mode",
-        "category": "Weather"
+        "title": "Pixel Weather: Use Normal Settings Mode",
+        "category": "Pixel Weather"
       },
       {
         "command": "weather.mode.dev",
-        "title": "Weather: Use Developer Mode",
-        "category": "Weather"
+        "title": "Pixel Weather: Use Developer Mode",
+        "category": "Pixel Weather"
       },
       {
         "command": "weather.cycleNow",
-        "title": "Weather: Force Weather Change",
-        "category": "Weather"
+        "title": "Pixel Weather: Force Weather Change",
+        "category": "Pixel Weather"
       },
       {
         "command": "weather.dev.sunny",
-        "title": "Weather: Set Sunny",
-        "category": "Weather"
+        "title": "Pixel Weather: Set Sunny",
+        "category": "Pixel Weather"
       },
       {
         "command": "weather.dev.cloudy",
-        "title": "Weather: Set Cloudy",
-        "category": "Weather"
+        "title": "Pixel Weather: Set Cloudy",
+        "category": "Pixel Weather"
       },
       {
         "command": "weather.dev.rain",
-        "title": "Weather: Set Rain",
-        "category": "Weather"
+        "title": "Pixel Weather: Set Rain",
+        "category": "Pixel Weather"
       },
       {
         "command": "weather.dev.thunder",
-        "title": "Weather: Set Thunderstorm",
-        "category": "Weather"
+        "title": "Pixel Weather: Set Thunderstorm",
+        "category": "Pixel Weather"
       },
       {
         "command": "weather.dev.flash",
-        "title": "Weather: Flash Lightning",
-        "category": "Weather"
+        "title": "Pixel Weather: Flash Lightning",
+        "category": "Pixel Weather"
       },
       {
         "command": "weather.dev.birds",
-        "title": "Weather: Spawn Birds",
-        "category": "Weather"
+        "title": "Pixel Weather: Spawn Birds",
+        "category": "Pixel Weather"
+      },
+      {
+        "command": "weather.dev.inchworm",
+        "title": "Pixel Weather: Spawn Inchworm",
+        "category": "Pixel Weather"
       }
     ]
   },

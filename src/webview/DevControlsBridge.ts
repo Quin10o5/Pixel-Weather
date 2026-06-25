@@ -6,6 +6,7 @@ export interface DevControlsBridge {
   cycleNow(): void;
   triggerLightning(): void;
   triggerBirds(): void;
+  triggerInchworm(): void;
   setShowFps(visible: boolean): void;
   runBenchmark(): Promise<string>;
 }

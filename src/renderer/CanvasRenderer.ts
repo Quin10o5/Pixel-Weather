@@ -16,6 +16,7 @@ import { RainSystem } from '../systems/RainSystem';
 import { SnowSystem } from '../systems/SnowSystem';
 import { LightningSystem } from '../systems/LightningSystem';
 import { BirdSystem } from '../systems/BirdSystem';
+import { InchwormSystem } from '../systems/InchwormSystem';
 import { configurePixelCanvas } from './pixelArt';
 import {
   WEATHER_TRANSITION_SEC,
@@ -35,6 +36,7 @@ export class CanvasRenderer {
   private readonly snowSystem = new SnowSystem();
   private readonly lightningSystem = new LightningSystem();
   private readonly birdSystem = new BirdSystem();
+  private readonly inchwormSystem = new InchwormSystem();
   private systems: WeatherSystem[];
   private settings: WeatherSettings = { ...DEFAULT_SETTINGS };
   private devOverrides: DevOverrides = {};
@@ -66,12 +68,21 @@ export class CanvasRenderer {
       this.cloudSystem,
       this.lightningSystem,
       this.birdSystem,
+      this.inchwormSystem,
     ];
     this.lightningSystem.setCloudProvider(this.cloudSystem);
   }
 
   getBirdSystem(): BirdSystem {
     return this.birdSystem;
+  }
+
+  getInchwormSystem(): InchwormSystem {
+    return this.inchwormSystem;
+  }
+
+  handleClick(x: number, y: number): boolean {
+    return this.inchwormSystem.tryClick(x, y);
   }
 
   getLightningSystem(): LightningSystem {
@@ -96,11 +107,11 @@ export class CanvasRenderer {
   handleMessage(msg: HostMessage): void {
     switch (msg.type) {
       case 'init':
-        if (msg.weather) this.setWeather(msg.weather, true);
-        if (msg.dayPhase) this.setDayPhase(msg.dayPhase);
-        if (msg.wind) this.setWind(msg.wind);
         if (msg.settings) this.setSettings(msg.settings);
         if (msg.devOverrides) this.setDevOverrides(msg.devOverrides);
+        if (msg.dayPhase) this.setDayPhase(msg.dayPhase);
+        if (msg.wind) this.setWind(msg.wind);
+        if (msg.weather) this.setWeather(msg.weather, true);
         break;
       case 'weather':
         if (msg.weather) this.setWeather(msg.weather);
@@ -126,13 +137,18 @@ export class CanvasRenderer {
       case 'triggerBirds':
         this.birdSystem.triggerFlock();
         break;
+      case 'triggerInchworm':
+        this.inchwormSystem.triggerInchworm();
+        break;
     }
   }
 
   setDevOverrides(overrides: DevOverrides): void {
     this.devOverrides = { ...this.devOverrides, ...overrides };
     this.applyDevOverrides();
-    this.applyDisplayWeather();
+    if (this.transitionProgress >= 1) {
+      this.applyDisplayWeather();
+    }
   }
 
   update(dt: number): void {
@@ -161,6 +177,7 @@ export class CanvasRenderer {
     this.snowSystem.update(dt, this.time);
     this.lightningSystem.update(dt, this.time);
     this.birdSystem.update(dt, this.time);
+    this.inchwormSystem.update(dt, this.time);
   }
 
   draw(): void {

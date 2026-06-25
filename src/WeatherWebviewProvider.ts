@@ -104,7 +104,8 @@ export class WeatherWebviewProvider implements vscode.WebviewViewProvider {
       width: 100%;
       height: 100%;
       z-index: 0;
-      pointer-events: none;
+      pointer-events: auto;
+      cursor: default;
     }
     #ui-layer {
       position: fixed;
@@ -352,6 +353,7 @@ export class WeatherWebviewProvider implements vscode.WebviewViewProvider {
         <span class="section-label">Effects</span>
         <button id="btn-lightning" type="button">Flash</button>
         <button id="btn-birds" type="button">Birds</button>
+        <button id="btn-inchworm" type="button">Inchworm</button>
         <button id="btn-benchmark" type="button">Benchmark</button>
         <label class="check-row">
           <input id="chk-show-fps" type="checkbox" />
