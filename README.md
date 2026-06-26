@@ -103,4 +103,4 @@ Press **F5** to launch the Extension Development Host.
 
 ## License / Source
 
-MIT
+MIT — source on GitHub: [Quin10o5/Pixel-Weather](https://github.com/Quin10o5/Pixel-Weather)

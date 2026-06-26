@@ -2,7 +2,7 @@
   "name": "pixel-weather",
   "displayName": "Pixel Weather",
   "description": "Pixel-art clouds, rain, and thunder in a strip above your editor — matches your theme background.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "publisher": "quin10o5",
   "license": "MIT",
   "icon": "media/icon.png",
