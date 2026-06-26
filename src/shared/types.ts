@@ -295,7 +295,7 @@ export function pickWeightedWeather(snowEnabled: boolean): WeatherState {
 export const DEFAULT_SETTINGS: WeatherSettings = {
   enabled: true,
   showOnStartup: true,
-  panelPosition: 'top',
+  panelPosition: 'bottom',
   intensity: 1.0,
   birds: true,
   mountains: true,

@@ -228,10 +228,10 @@ export class SunSystem implements WeatherSystem {
 
     ctx.save();
     ctx.globalAlpha = weatherAlpha;
-    this.drawSunHalo(ctx, sunX, sunY, coreBlocks, baseIntensity, glowStrength, glowPulse);
     fillBlock(ctx, sunX - PIXEL * 2, sunY - PIXEL * 2, coreBlocks + 3, coreBlocks + 3, glowColor, 0.3 * baseIntensity * glowPulse);
     fillBlock(ctx, sunX - PIXEL, sunY - PIXEL, coreBlocks + 1, coreBlocks + 1, glowColor, 0.45 * baseIntensity * glowPulse);
     fillBlock(ctx, sunX, sunY, coreBlocks, coreBlocks, coreColor, 0.95 * baseIntensity * corePulse);
+    this.drawSunHalo(ctx, sunX, sunY, coreBlocks, baseIntensity, glowStrength, glowPulse);
     ctx.restore();
   }
 
@@ -251,32 +251,45 @@ export class SunSystem implements WeatherSystem {
     const strength = glowStrength * baseIntensity * glowPulse;
     const color = '#ffe878';
 
-    for (let ring = 4; ring >= 2; ring--) {
-      const size = coreBlocks + ring * 2;
+    for (let ring = 2; ring <= 4; ring++) {
+      const outerBlocks = coreBlocks + ring * 2;
+      const innerBlocks = coreBlocks + (ring - 1) * 2;
       const t = (ring - 2) / 2;
       const alpha = (0.1 + t * 0.22) * strength;
       const x = sunX - ring * PIXEL;
       const y = sunY - ring * PIXEL;
-      this.drawPixelRing(ctx, x, y, size, color, alpha);
+      this.drawRingBand(ctx, x, y, innerBlocks, outerBlocks, color, alpha);
     }
   }
 
-  /** One-block-thick square ring in pixel blocks. */
-  private drawPixelRing(
+  /** One-block-wide band between nested square outlines (no shared edges with inner ring). */
+  private drawRingBand(
     ctx: CanvasRenderingContext2D,
     x: number,
     y: number,
-    blocks: number,
+    innerBlocks: number,
+    outerBlocks: number,
     color: string,
     alpha: number
   ): void {
-    if (blocks < 3 || alpha <= 0.005) {
+    if (outerBlocks <= innerBlocks || alpha <= 0.005) {
       return;
     }
-    fillBlock(ctx, x, y, blocks, 1, color, alpha);
-    fillBlock(ctx, x, y + (blocks - 1) * PIXEL, blocks, 1, color, alpha);
-    fillBlock(ctx, x, y + PIXEL, 1, blocks - 2, color, alpha);
-    fillBlock(ctx, x + (blocks - 1) * PIXEL, y + PIXEL, 1, blocks - 2, color, alpha);
+
+    const x0 = snap(x);
+    const y0 = snap(y);
+
+    for (let bx = 0; bx < outerBlocks; bx++) {
+      for (let by = 0; by < outerBlocks; by++) {
+        const onOuter =
+          bx === 0 || by === 0 || bx === outerBlocks - 1 || by === outerBlocks - 1;
+        const inInnerCavity =
+          bx >= 1 && bx <= innerBlocks && by >= 1 && by <= innerBlocks;
+        if (onOuter && !inInnerCavity) {
+          fillBlock(ctx, x0 + bx * PIXEL, y0 + by * PIXEL, 1, 1, color, alpha);
+        }
+      }
+    }
   }
 
   private drawMoon(
